@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weather_app/controller/global_controller.dart';
 import 'package:weather_app/widgets/current_weather.dart';
+import 'package:weather_app/widgets/daily_data_forecast.dart';
 import 'package:weather_app/widgets/header_widget.dart';
 import 'package:weather_app/widgets/hourly_data_widget.dart';
 
@@ -24,7 +25,9 @@ class HomeScreen extends StatelessWidget {
                         weatherDataCurrent: c.weatherData.value.current!),
                     const SizedBox(height: 20),
                     HourlyDataWidget(
-                        weatherDataHourly: c.weatherData.value.hourly!)
+                        weatherDataHourly: c.weatherData.value.hourly!),
+                    DailyDataForecast(
+                        weatherDataDaily: c.weatherData.value.daily!)
                   ],
                 ))),
     );
