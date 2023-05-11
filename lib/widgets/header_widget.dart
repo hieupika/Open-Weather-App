@@ -12,7 +12,7 @@ class HeaderWidget extends StatefulWidget {
 }
 
 class _HeaderWidgetState extends State<HeaderWidget> {
-  String city = "";
+  String city = "Not Found";
   String date = DateFormat.yMMMMd().format(DateTime.now());
   final GlobalController globalController =
       Get.put(GlobalController(), permanent: true);
@@ -28,7 +28,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
     List<Placemark> placemarks = await placemarkFromCoordinates(lat, lon);
     Placemark place = placemarks[0];
     setState(() {
-      city = place.locality!;
+      city = place.locality ?? 'Not Found';
     });
   }
 
