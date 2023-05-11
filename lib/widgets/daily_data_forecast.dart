@@ -51,7 +51,6 @@ class DailyDataForecast extends StatelessWidget {
                   height: 60,
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Expanded(
                         flex: 4,
