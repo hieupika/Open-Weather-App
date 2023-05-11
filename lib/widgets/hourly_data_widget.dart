@@ -7,8 +7,8 @@ import 'package:weather_app/utils/custom_colors.dart';
 
 class HourlyDataWidget extends StatelessWidget {
   final WeatherDataHourly weatherDataHourly;
-
   const HourlyDataWidget({super.key, required this.weatherDataHourly});
+  static GlobalController c = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,6 @@ class HourlyDataWidget extends StatelessWidget {
   }
 
   Widget hourlyList() {
-    GlobalController c = Get.find();
     return Container(
       height: 150,
       padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -116,7 +115,7 @@ class HourlyDetailsCard extends StatelessWidget {
             child: Text("$temp°",
                 style:
                     TextStyle(color: isActive ? Colors.white : Colors.black)),
-          ) // Container
+          )
         ],
       ),
     );

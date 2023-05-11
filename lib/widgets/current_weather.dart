@@ -52,64 +52,53 @@ class CurrentWeather extends StatelessWidget {
   }
 
   Widget currentWeatherMoreDetailsWidget() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        InfoBox(
+            text: "${weatherDataCurrent.current.windSpeed}km/h",
+            imgSrc: "assets/icons/windspeed.png"),
+        InfoBox(
+            text: "${weatherDataCurrent.current.windSpeed}%",
+            imgSrc: "assets/icons/clouds.png"),
+        InfoBox(
+            text: "${weatherDataCurrent.current.windSpeed}%",
+            imgSrc: "assets/icons/humidity.png"),
+      ],
+    );
+  }
+}
+
+class InfoBox extends StatelessWidget {
+  const InfoBox({
+    super.key,
+    required this.text,
+    required this.imgSrc,
+  });
+
+  final String text;
+  final String imgSrc;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              height: 60,
-              width: 60,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                  color: CustomColors.cardColor,
-                  borderRadius: BorderRadius.circular(15)),
-              child: Image.asset("assets/icons/windspeed.png"),
-            ),
-            Container(
-              height: 60,
-              width: 60,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                  color: CustomColors.cardColor,
-                  borderRadius: BorderRadius.circular(15)),
-              child: Image.asset("assets/icons/clouds.png"),
-            ),
-            Container(
-              height: 60,
-              width: 60,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                  color: CustomColors.cardColor,
-                  borderRadius: BorderRadius.circular(15)),
-              child: Image.asset("assets/icons/humidity.png"),
-            )
-          ],
+        Container(
+          height: 60,
+          width: 60,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+              color: CustomColors.cardColor,
+              borderRadius: BorderRadius.circular(15)),
+          child: Image.asset(imgSrc),
         ),
         const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SizedBox(
-                height: 20,
-                width: 60,
-                child: Text("${weatherDataCurrent.current.windSpeed}km/h",
-                    style: const TextStyle(fontSize: 12),
-                    textAlign: TextAlign.center)),
-            SizedBox(
-                height: 20,
-                width: 60,
-                child: Text("${weatherDataCurrent.current.clouds}%",
-                    style: const TextStyle(fontSize: 12),
-                    textAlign: TextAlign.center)),
-            SizedBox(
-                height: 20,
-                width: 60,
-                child: Text("${weatherDataCurrent.current.humidity}%",
-                    style: const TextStyle(fontSize: 12),
-                    textAlign: TextAlign.center)),
-          ],
-        )
+        SizedBox(
+            height: 20,
+            width: 60,
+            child: Text(text,
+                style: const TextStyle(fontSize: 12),
+                textAlign: TextAlign.center)),
       ],
     );
   }
