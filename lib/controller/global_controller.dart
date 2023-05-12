@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/state_manager.dart';
 import 'package:weather_app/api/fetch_weather.dart';
@@ -8,6 +11,7 @@ class GlobalController extends GetxController {
   final RxDouble lattitude = 0.0.obs;
   final RxDouble longitude = 0.0.obs;
   final RxInt currentIndex = 0.obs;
+  final RxString name = 'None'.obs;
 
   final weatherData = WeatherData().obs;
 
@@ -16,11 +20,11 @@ class GlobalController extends GetxController {
 
   @override
   void onInit() {
-    if (isLoading.isTrue) getLocation();
     super.onInit();
+    if (isLoading.isTrue) getLocation();
   }
 
-  getLocation() async {
+  void getLocation() async {
     bool isServiceEnabled;
     LocationPermission locationPermission;
 
@@ -45,18 +49,28 @@ class GlobalController extends GetxController {
     }
 
     // getting the current position
-    return await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high)
-        .then((value) {
-      lattitude.value = value.latitude;
-      longitude.value = value.longitude;
+    Position pos = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
 
-      return FetchWeatherAPI()
-          .processData(value.latitude, value.longitude)
-          .then((value) {
-        weatherData.value = value;
-        isLoading.value = false;
-      });
+    lattitude.value = pos.latitude;
+    longitude.value = pos.longitude;
+
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(pos.latitude, pos.longitude);
+    Placemark place = placemarks[0];
+    name.value = place.locality ?? 'Not Found';
+
+    FetchWeatherAPI().oneCall(pos.latitude, pos.longitude).then((value) {
+      weatherData.value = value;
+      isLoading.value = false;
+    });
+  }
+
+  void updateLocation(double lat, double lon) {
+    isLoading.value = true;
+    FetchWeatherAPI().oneCall(lat, lon).then((value) {
+      weatherData.value = value;
+      isLoading.value = false;
     });
   }
 }
