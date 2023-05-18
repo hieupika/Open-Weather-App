@@ -10,8 +10,7 @@ import 'package:weather_app/utils/api_url.dart';
 
 class FetchWeatherAPI {
   Future<WeatherData> oneCall(lat, lon) async {
-    var res = await http.get(Uri.parse(oneCallApiURL(lat, lon)));
-    print(res);
+    var res = await http.get(oneCallUri(lat, lon));
     var jsonStr = jsonDecode(res.body);
     WeatherData weatherData = WeatherData(
         current: WeatherDataCurrent.fromJson(jsonStr),
@@ -21,7 +20,7 @@ class FetchWeatherAPI {
   }
 
   Future<SearchPlace> searchPlace(String q) async {
-    var res = await http.get(Uri.parse(searchApiURL(q)));
+    var res = await http.get(searchPlaceUri(q));
     var jsonStr = jsonDecode(res.body);
     SearchPlace place = SearchPlace.fromJson(jsonStr);
     return place;
